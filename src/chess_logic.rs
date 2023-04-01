@@ -4,7 +4,7 @@ use std::{
     ops::{Index, IndexMut},
 };
 
-const LINE_SIZE: u8 = 8;
+const BOARD_WIDTH: u8 = 8;
 
 #[derive(Clone, Copy, Debug)]
 pub enum Piece {
@@ -74,9 +74,9 @@ impl Iterator for BoardIter {
             return Some(Vector2::new(0, 0));
         }
 
-        if self.curr_x < LINE_SIZE {
+        if self.curr_x < BOARD_WIDTH {
             self.curr_x += 1;
-        } else if self.curr_y < LINE_SIZE {
+        } else if self.curr_y < BOARD_WIDTH {
             self.curr_y += 1;
             self.curr_x = 1;
         } else {
@@ -89,12 +89,13 @@ impl Iterator for BoardIter {
 
 #[derive(Clone, Debug)]
 pub struct Board {
-    pieces: [Option<OwnedPiece>; LINE_SIZE.pow(2) as usize],
+    pieces: [Option<OwnedPiece>; BOARD_WIDTH.pow(2) as usize],
 }
 
 impl Display for Board {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         for pos in BoardIter::new() {
+            let pos = Vector2::new(pos.x, (BOARD_WIDTH - 1) - pos.y);
             if let Some(piece) = self[pos] {
                 write!(f, "{:}", piece)?;
             } else {
@@ -112,31 +113,39 @@ impl Index<Vector2<u8>> for Board {
     type Output = Option<OwnedPiece>;
 
     fn index(&self, index: Vector2<u8>) -> &Self::Output {
-        debug_assert!((0..LINE_SIZE).contains(&index.x));
-        debug_assert!((0..LINE_SIZE).contains(&index.y));
+        debug_assert!((0..BOARD_WIDTH).contains(&index.x));
+        debug_assert!((0..BOARD_WIDTH).contains(&index.y));
 
-        &self.pieces[(index.y * LINE_SIZE + index.x) as usize]
+        &self.pieces[(index.y * BOARD_WIDTH + index.x) as usize]
     }
 }
 
 impl IndexMut<Vector2<u8>> for Board {
     fn index_mut(&mut self, index: Vector2<u8>) -> &mut Self::Output {
-        debug_assert!((0..LINE_SIZE).contains(&index.x));
-        debug_assert!((0..LINE_SIZE).contains(&index.y));
+        debug_assert!((0..BOARD_WIDTH).contains(&index.x));
+        debug_assert!((0..BOARD_WIDTH).contains(&index.y));
 
-        &mut self.pieces[(index.y * LINE_SIZE + index.x) as usize]
+        &mut self.pieces[(index.y * BOARD_WIDTH + index.x) as usize]
     }
 }
 
 impl Board {
     const fn empty() -> Self {
         Self {
-            pieces: [None; LINE_SIZE.pow(2) as usize],
+            pieces: [None; BOARD_WIDTH.pow(2) as usize],
         }
     }
 
-    pub const fn new() -> Self {
+    pub fn new() -> Self {
         let mut out = Self::empty();
+
+        for pos in BoardIter::new() {
+            if pos == Vector2::new(0, 0) {
+                out[pos] = Some(OwnedPiece(Player::White, Piece::Rook))
+            } else if pos == Vector2::new(1, 0) {
+                out[pos] = Some(OwnedPiece(Player::White, Piece::Knight))
+            }
+        }
 
         out
     }

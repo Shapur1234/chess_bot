@@ -1,4 +1,5 @@
-use cgmath::{prelude::*, Vector2};
+use ansi_term::Colour::{Green, Red};
+use cgmath::Vector2;
 use std::{
     fmt::Display,
     ops::{Index, IndexMut},
@@ -20,13 +21,13 @@ impl Display for Piece {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(
             f,
-            "{:}",
+            "{}",
             match self {
-                Piece::Pawn => "p",
-                Piece::Bishop => "b",
-                Piece::Knight => "k",
-                Piece::Rook => "r",
-                Piece::Queen => "q",
+                Piece::Pawn => "P",
+                Piece::Bishop => "B",
+                Piece::Knight => "N",
+                Piece::Rook => "R",
+                Piece::Queen => "Q",
                 Piece::King => "K",
             }
         )
@@ -46,7 +47,10 @@ impl Display for OwnedPiece {
     // TODO: Color
 
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "{:}", self.1)
+        match self.0 {
+            Player::White => write!(f, "{}", Green.paint(self.1.to_string())),
+            Player::Black => write!(f, "{}", Red.paint(self.1.to_string())),
+        }
     }
 }
 
@@ -97,9 +101,9 @@ impl Display for Board {
         for pos in BoardIter::new() {
             let pos = Vector2::new(pos.x, (BOARD_WIDTH - 1) - pos.y);
             if let Some(piece) = self[pos] {
-                write!(f, "{:}", piece)?;
+                write!(f, "{}", piece)?;
             } else {
-                write!(f, "")?;
+                write!(f, "-")?;
             }
             if pos.x == 7 {
                 writeln!(f)?;
@@ -144,6 +148,66 @@ impl Board {
                 out[pos] = Some(OwnedPiece(Player::White, Piece::Rook))
             } else if pos == Vector2::new(1, 0) {
                 out[pos] = Some(OwnedPiece(Player::White, Piece::Knight))
+            } else if pos == Vector2::new(2, 0) {
+                out[pos] = Some(OwnedPiece(Player::White, Piece::Bishop))
+            } else if pos == Vector2::new(3, 0) {
+                out[pos] = Some(OwnedPiece(Player::White, Piece::Queen))
+            } else if pos == Vector2::new(4, 0) {
+                out[pos] = Some(OwnedPiece(Player::White, Piece::King))
+            } else if pos == Vector2::new(5, 0) {
+                out[pos] = Some(OwnedPiece(Player::White, Piece::Bishop))
+            } else if pos == Vector2::new(6, 0) {
+                out[pos] = Some(OwnedPiece(Player::White, Piece::Knight))
+            } else if pos == Vector2::new(7, 0) {
+                out[pos] = Some(OwnedPiece(Player::White, Piece::Rook))
+            } else if pos == Vector2::new(0, 1) {
+                out[pos] = Some(OwnedPiece(Player::White, Piece::Pawn))
+            } else if pos == Vector2::new(1, 1) {
+                out[pos] = Some(OwnedPiece(Player::White, Piece::Pawn))
+            } else if pos == Vector2::new(2, 1) {
+                out[pos] = Some(OwnedPiece(Player::White, Piece::Pawn))
+            } else if pos == Vector2::new(3, 1) {
+                out[pos] = Some(OwnedPiece(Player::White, Piece::Pawn))
+            } else if pos == Vector2::new(4, 1) {
+                out[pos] = Some(OwnedPiece(Player::White, Piece::Pawn))
+            } else if pos == Vector2::new(5, 1) {
+                out[pos] = Some(OwnedPiece(Player::White, Piece::Pawn))
+            } else if pos == Vector2::new(6, 1) {
+                out[pos] = Some(OwnedPiece(Player::White, Piece::Pawn))
+            } else if pos == Vector2::new(7, 1) {
+                out[pos] = Some(OwnedPiece(Player::White, Piece::Pawn))
+            } else if pos == Vector2::new(0, 7) {
+                out[pos] = Some(OwnedPiece(Player::Black, Piece::Knight))
+            } else if pos == Vector2::new(1, 7) {
+                out[pos] = Some(OwnedPiece(Player::Black, Piece::Bishop))
+            } else if pos == Vector2::new(2, 7) {
+                out[pos] = Some(OwnedPiece(Player::Black, Piece::Queen))
+            } else if pos == Vector2::new(3, 7) {
+                out[pos] = Some(OwnedPiece(Player::Black, Piece::King))
+            } else if pos == Vector2::new(4, 7) {
+                out[pos] = Some(OwnedPiece(Player::Black, Piece::Bishop))
+            } else if pos == Vector2::new(5, 7) {
+                out[pos] = Some(OwnedPiece(Player::Black, Piece::Knight))
+            } else if pos == Vector2::new(6, 7) {
+                out[pos] = Some(OwnedPiece(Player::Black, Piece::Rook))
+            } else if pos == Vector2::new(7, 7) {
+                out[pos] = Some(OwnedPiece(Player::Black, Piece::Pawn))
+            } else if pos == Vector2::new(0, 6) {
+                out[pos] = Some(OwnedPiece(Player::Black, Piece::Pawn))
+            } else if pos == Vector2::new(1, 6) {
+                out[pos] = Some(OwnedPiece(Player::Black, Piece::Pawn))
+            } else if pos == Vector2::new(2, 6) {
+                out[pos] = Some(OwnedPiece(Player::Black, Piece::Pawn))
+            } else if pos == Vector2::new(3, 6) {
+                out[pos] = Some(OwnedPiece(Player::Black, Piece::Pawn))
+            } else if pos == Vector2::new(4, 6) {
+                out[pos] = Some(OwnedPiece(Player::Black, Piece::Pawn))
+            } else if pos == Vector2::new(5, 6) {
+                out[pos] = Some(OwnedPiece(Player::Black, Piece::Pawn))
+            } else if pos == Vector2::new(6, 6) {
+                out[pos] = Some(OwnedPiece(Player::Black, Piece::Pawn))
+            } else if pos == Vector2::new(7, 6) {
+                out[pos] = Some(OwnedPiece(Player::Black, Piece::Pawn))
             }
         }
 

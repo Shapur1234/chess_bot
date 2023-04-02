@@ -6,4 +6,5 @@ license = "GPL-3.0-or-later"
 repository = "https://github.com/Shapur1234/chess_bot"
 
 [dependencies]
+ansi_term = "0.12.1"
 cgmath = "0.18.0"

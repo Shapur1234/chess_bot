@@ -4,9 +4,9 @@ use std::{
     ops::{Index, IndexMut},
 };
 
-use super::{OwnedPiece, Piece, Player};
+use super::{MoveDescriptor, OwnedPiece, Piece, Player};
 
-const BOARD_SIZE: u8 = 8;
+pub const BOARD_SIZE: u8 = 8;
 
 struct BoardIter {
     curr_x: u8,
@@ -72,7 +72,7 @@ impl Display for Board {
             }
         }
 
-        writeln!(f, "  abcdefgh  ")?;
+        write!(f, "  abcdefgh  ")?;
 
         Ok(())
     }
@@ -178,4 +178,26 @@ impl Board {
 
         out
     }
+
+    pub fn is_move_valid(&self, move_command: MoveDescriptor) -> bool {
+        // TODO: Implement
+        true
+    }
+
+    pub fn do_move(&mut self, move_command: MoveDescriptor) {
+        self[move_command.to] = self[move_command.from];
+        self[move_command.from] = None
+    }
+
+    pub fn evaluate_bord(&self) -> BoardCondition {
+        // TODO: Implement
+        BoardCondition::Continue
+    }
+}
+
+#[derive(Clone, Copy, Debug)]
+pub enum BoardCondition {
+    Win(Player),
+    Draw,
+    Continue,
 }

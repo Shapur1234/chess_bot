@@ -3,7 +3,7 @@ use std::fmt::Display;
 
 use super::Player;
 
-#[derive(Clone, Copy, Debug)]
+#[derive(Clone, Copy, PartialEq, Eq, Debug)]
 pub enum Piece {
     Pawn,
     Bishop,

@@ -4,7 +4,7 @@ use std::{
     ops::{Index, IndexMut},
 };
 
-use super::{MoveDescriptor, OwnedPiece, Piece, Player};
+use crate::chess_logic::{MoveDescriptor, OwnedPiece, Piece, Player};
 
 pub const BOARD_SIZE: u8 = 8;
 

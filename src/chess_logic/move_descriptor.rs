@@ -1,6 +1,6 @@
 use cgmath::Vector2;
 
-use super::BOARD_SIZE;
+use crate::chess_logic::BOARD_SIZE;
 
 #[derive(Clone, Copy, PartialEq, Eq, Debug)]
 pub struct MoveDescriptor {

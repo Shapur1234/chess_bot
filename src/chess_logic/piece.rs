@@ -1,7 +1,7 @@
 use ansi_term::Color::{Green, Red};
 use std::fmt::Display;
 
-use super::Player;
+use crate::{chess_logic::Player, parameters::PARAMETERS};
 
 #[derive(Clone, Copy, PartialEq, Eq, Debug)]
 pub enum Piece {
@@ -31,14 +31,14 @@ impl Display for Piece {
 }
 
 impl Piece {
-    pub const fn value(&self) -> f32 {
+    pub fn value(&self) -> f32 {
         match self {
-            Piece::Pawn => 1.0,
-            Piece::Bishop => 3.0,
-            Piece::Knight => 3.0,
-            Piece::Rook => 5.0,
-            Piece::Queen => 9.0,
-            Piece::King => f32::MAX,
+            Piece::Pawn => PARAMETERS.pawn_value,
+            Piece::Bishop => PARAMETERS.bishop_value,
+            Piece::Knight => PARAMETERS.knight_value,
+            Piece::Rook => PARAMETERS.rook_value,
+            Piece::Queen => PARAMETERS.queen_value,
+            Piece::King => PARAMETERS.knight_value,
         }
     }
 }

@@ -1,0 +1,6 @@
+pawn_value = 1.0
+bishop_value = 3.0
+knight_value = 3.0
+rook_value = 5.0
+queen_value = 9.0
+king_value = 340282350000000000000000000000000000000.0

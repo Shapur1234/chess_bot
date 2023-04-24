@@ -1,6 +1,6 @@
 use std::{fmt::Display, ops::Neg};
 
-use super::{Board, BoardCondition, MoveDescriptor, Player};
+use crate::chess_logic::{Board, BoardCondition, MoveDescriptor, Player};
 
 #[derive(Clone, Copy, Debug)]
 pub enum StateUpdate {

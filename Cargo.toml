@@ -8,3 +8,6 @@ repository = "https://github.com/Shapur1234/chess_bot"
 [dependencies]
 ansi_term = "0.12.1"
 cgmath = "0.18.0"
+confy = "0.5.1"
+lazy_static = "1.4.0"
+serde = { version = "1.0.160", features = ["derive"] }

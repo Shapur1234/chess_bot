@@ -2,6 +2,8 @@ use cgmath::Vector2;
 
 use crate::chess_logic::BOARD_SIZE;
 
+// TODO: Check castle, ompasant
+
 #[derive(Clone, Copy, PartialEq, Eq, Debug)]
 pub struct MoveDescriptor {
     pub from: Vector2<u8>,
@@ -10,7 +12,7 @@ pub struct MoveDescriptor {
 
 impl MoveDescriptor {
     pub fn new(from: Vector2<u8>, to: Vector2<u8>) -> Option<Self> {
-        if from.x < BOARD_SIZE && from.y < BOARD_SIZE && to.x < BOARD_SIZE && to.y < BOARD_SIZE {
+        if fits_on_board(from, to) {
             Some(Self { from, to })
         } else {
             None
@@ -46,6 +48,10 @@ impl TryFrom<String> for MoveDescriptor {
             Err(())
         }
     }
+}
+
+pub const fn fits_on_board(from: Vector2<u8>, to: Vector2<u8>) -> bool {
+    from.x < BOARD_SIZE && from.y < BOARD_SIZE && to.x < BOARD_SIZE && to.y < BOARD_SIZE
 }
 
 fn char_to_num(char: char) -> Result<u8, ()> {

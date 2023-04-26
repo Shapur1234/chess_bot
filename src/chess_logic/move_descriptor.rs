@@ -30,13 +30,18 @@ impl TryFrom<String> for MoveDescriptor {
             let (mut from, mut to) = (Vector2::new(0, 0), Vector2::new(0, 0));
 
             for (index, char) in value.char_indices() {
-                if let Ok(num) = char_to_num(char) {
-                    match index {
-                        0 => from.x = num,
-                        1 => from.y = num,
-                        2 => to.x = num,
-                        3 => to.y = num,
-                        _ => unreachable!(),
+                if (index % 2 == 0 && char.is_alphabetic()) | (index % 2 != 0 && char.is_numeric())
+                {
+                    if let Ok(num) = char_to_num(char) {
+                        match index {
+                            0 => from.x = num,
+                            1 => from.y = num,
+                            2 => to.x = num,
+                            3 => to.y = num,
+                            _ => unreachable!(),
+                        }
+                    } else {
+                        return Err(());
                     }
                 } else {
                     return Err(());

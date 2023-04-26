@@ -7,6 +7,10 @@ use std::{
 use crate::chess_logic::{MoveDescriptor, OwnedPiece, Piece, Player};
 
 pub const BOARD_SIZE: u8 = 8;
+pub const WHITE_PAWN_START_ROW: u8 = 1;
+pub const WHITE_PAWN_END_ROW: u8 = 7;
+pub const BLACK_PAWN_START_ROW: u8 = 6;
+pub const BLACK_PAWN_END_ROW: u8 = 0;
 
 struct BoardIter {
     curr_x: u8,
@@ -108,7 +112,7 @@ impl Board {
     pub fn new() -> Self {
         let mut out = Self::empty();
 
-        for pos in BoardIter::new() {
+        BoardIter::new().for_each(|pos| {
             if pos == Vector2::new(0, 0) {
                 out[pos] = Some(OwnedPiece::new(Player::White, Piece::Rook))
             } else if pos == Vector2::new(1, 0) {
@@ -174,7 +178,7 @@ impl Board {
             } else if pos == Vector2::new(7, 6) {
                 out[pos] = Some(OwnedPiece::new(Player::Black, Piece::Pawn))
             }
-        }
+        });
 
         out
     }

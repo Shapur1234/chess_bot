@@ -11,7 +11,9 @@ pub struct MoveDescriptor {
 }
 
 impl MoveDescriptor {
-    pub fn new(from: Vector2<u8>, to: Vector2<u8>) -> Option<Self> {
+    pub fn new(from: impl Into<Vector2<u8>>, to: impl Into<Vector2<u8>>) -> Option<Self> {
+        let (from, to) = (from.into(), to.into());
+
         if fits_on_board(from, to) {
             Some(Self { from, to })
         } else {
@@ -55,11 +57,11 @@ impl TryFrom<String> for MoveDescriptor {
     }
 }
 
-pub const fn fits_on_board(from: Vector2<u8>, to: Vector2<u8>) -> bool {
+const fn fits_on_board(from: Vector2<u8>, to: Vector2<u8>) -> bool {
     from.x < BOARD_SIZE && from.y < BOARD_SIZE && to.x < BOARD_SIZE && to.y < BOARD_SIZE
 }
 
-fn char_to_num(char: char) -> Result<u8, ()> {
+const fn char_to_num(char: char) -> Result<u8, ()> {
     match char {
         'a' | '1' => Ok(0),
         'b' | '2' => Ok(1),

@@ -112,6 +112,7 @@ impl Board {
     pub fn new() -> Self {
         let mut out = Self::empty();
 
+        #[allow(clippy::if_same_then_else)]
         BoardIter::new().for_each(|pos| {
             if pos == Vector2::new(0, 0) {
                 out[pos] = Some(OwnedPiece::new(Player::White, Piece::Rook))
@@ -183,12 +184,14 @@ impl Board {
         out
     }
 
-    pub fn is_move_valid(&self, move_command: MoveDescriptor) -> bool {
+    pub fn is_move_valid(&self, move_command: impl Into<MoveDescriptor>) -> bool {
         // TODO: Implement
         true
     }
 
-    pub fn do_move(&mut self, move_command: MoveDescriptor) {
+    pub fn do_move(&mut self, move_command: impl Into<MoveDescriptor>) {
+        let move_command = move_command.into();
+
         self[move_command.to] = self[move_command.from];
         self[move_command.from] = None
     }

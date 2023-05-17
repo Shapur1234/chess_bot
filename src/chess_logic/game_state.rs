@@ -26,14 +26,16 @@ impl Display for GameState {
 }
 
 impl GameState {
-    pub fn new(starting_player: Player) -> Self {
+    pub fn new(starting_player: impl Into<Player>) -> Self {
         Self {
             board: Board::new(),
-            turn: starting_player,
+            turn: starting_player.into(),
         }
     }
 
-    pub fn play(&mut self, move_command: MoveDescriptor) -> StateUpdate {
+    pub fn play(&mut self, move_command: impl Into<MoveDescriptor>) -> StateUpdate {
+        let move_command = move_command.into();
+
         if self.board.is_move_valid(move_command) {
             self.board.do_move(move_command);
             match self.board.evaluate_bord() {
